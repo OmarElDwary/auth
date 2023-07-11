@@ -41,10 +41,9 @@ export default function ProfilePage() {
         <div className="flex flex-col items-center justify-center min-h-screen py-2">
             <h1>Profile</h1>
             <hr />
-            <p>{data}</p>
+            <p className="text-white">{data}</p>
             <hr />
             <button onClick={logout} className="bg-blue-500 mt-4 hover:bg-blue-700 text-white rounded py-2 px-4">Logout</button>
-            {/* <button onClick={getProfile} className="bg-blue-500 mt-4 hover:bg-blue-700 text-white rounded py-2 px-4">get user details</button> */}
         </div>
     )
 }

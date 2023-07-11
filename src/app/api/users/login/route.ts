@@ -9,14 +9,16 @@ connect()
 export async function POST(request: NextRequest){
     try {
         const reqBody = await request.json()
-        const {username, password} = reqBody;
+        const {email, password} = reqBody;
         console.log(reqBody)
 
         // Check if user already exists
-        const user = await User.findOne({username})
+        const user = await User.findOne({email})
         if (!user) {
             return NextResponse.json({error: 'User does not exist'}, {status: 400})
         } 
+
+        console.log("user exists");
 
         // Check if password is correct
         const validPassword = await bcryptjs.compare(password, user.password)
@@ -27,8 +29,8 @@ export async function POST(request: NextRequest){
         // Create and assign a token
         const tokenData = {
             id: user._id,
-            username: user.username,
-            email: user.email
+            email: user.email,
+            username: user.username
         }
 
         const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!, {expiresIn: '1d'})
@@ -42,7 +44,7 @@ export async function POST(request: NextRequest){
 
         response.cookies.set('token', token, {
             httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000 // 1 day
+            //maxAge: 24 * 60 * 60 * 1000 // 1 day
         })
 
         return response;
